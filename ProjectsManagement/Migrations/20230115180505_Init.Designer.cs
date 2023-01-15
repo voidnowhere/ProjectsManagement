@@ -11,7 +11,7 @@ using ProjectsManagement.Models;
 namespace ProjectsManagement.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230115154704_Init")]
+    [Migration("20230115180505_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -24,17 +24,26 @@ namespace ProjectsManagement.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ProjectsManagement.Entities.MemberCompetencies", b =>
+            modelBuilder.Entity("ProjectsManagement.Entities.MemberCompetence", b =>
                 {
-                    b.Property<int>("MemberId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CompetenceId")
                         .HasColumnType("int");
 
-                    b.HasKey("MemberId", "CompetenceId");
+                    b.Property<int>("MemberId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CompetenceId");
+
+                    b.HasIndex("MemberId", "CompetenceId")
+                        .IsUnique();
 
                     b.ToTable("MembersCompetencies");
                 });
@@ -128,17 +137,26 @@ namespace ProjectsManagement.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("ProjectsManagement.Entities.ProjectMembers", b =>
+            modelBuilder.Entity("ProjectsManagement.Entities.ProjectMember", b =>
                 {
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("MemberId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProjectId", "MemberId");
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("MemberId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("MemberId", "ProjectId")
+                        .IsUnique();
 
                     b.ToTable("ProjectsMembers");
                 });
@@ -220,10 +238,10 @@ namespace ProjectsManagement.Migrations
                     b.HasDiscriminator().HasValue("Member");
                 });
 
-            modelBuilder.Entity("ProjectsManagement.Entities.MemberCompetencies", b =>
+            modelBuilder.Entity("ProjectsManagement.Entities.MemberCompetence", b =>
                 {
                     b.HasOne("ProjectsManagement.Entities.ProjectType", "Competence")
-                        .WithMany("MembersCompetencies")
+                        .WithMany("Members")
                         .HasForeignKey("CompetenceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -250,7 +268,7 @@ namespace ProjectsManagement.Migrations
                     b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("ProjectsManagement.Entities.ProjectMembers", b =>
+            modelBuilder.Entity("ProjectsManagement.Entities.ProjectMember", b =>
                 {
                     b.HasOne("ProjectsManagement.Entities.Member", "Member")
                         .WithMany("Projects")
@@ -297,7 +315,7 @@ namespace ProjectsManagement.Migrations
 
             modelBuilder.Entity("ProjectsManagement.Entities.ProjectType", b =>
                 {
-                    b.Navigation("MembersCompetencies");
+                    b.Navigation("Members");
 
                     b.Navigation("Projects");
                 });

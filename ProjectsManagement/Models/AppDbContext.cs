@@ -11,11 +11,11 @@ internal class AppDbContext : DbContext
     
     public DbSet<Member> Members { get; set; }
     
-    public DbSet<MemberCompetencies> MembersCompetencies { get; set; }
+    public DbSet<MemberCompetence> MembersCompetencies { get; set; }
     
     public DbSet<ProjectType> ProjectTypes { get; set; }
     
-    public DbSet<ProjectMembers> ProjectsMembers { get; set; }
+    public DbSet<ProjectMember> ProjectsMembers { get; set; }
     
     public DbSet<Project> Projects { get; set; }
     
@@ -41,21 +41,21 @@ internal class AppDbContext : DbContext
            .HasOne(t => t.Member)
            .WithMany(m => m.Tasks)
            .OnDelete(DeleteBehavior.Restrict);
-        modelBuilder.Entity<ProjectMembers>()
+        modelBuilder.Entity<ProjectMember>()
             .HasOne(pm => pm.Member)
             .WithMany(m => m.Projects)
             .OnDelete(DeleteBehavior.Restrict);
-        modelBuilder.Entity<ProjectMembers>()
+        modelBuilder.Entity<ProjectMember>()
             .HasOne(pm => pm.Project)
             .WithMany(m => m.Members)
             .OnDelete(DeleteBehavior.Restrict);
-        modelBuilder.Entity<MemberCompetencies>()
+        modelBuilder.Entity<MemberCompetence>()
             .HasOne(mc => mc.Member)
             .WithMany(m => m.Competencies)
             .OnDelete(DeleteBehavior.Restrict);
-        modelBuilder.Entity<MemberCompetencies>()
+        modelBuilder.Entity<MemberCompetence>()
             .HasOne(mc => mc.Competence)
-            .WithMany(c => c.MembersCompetencies)
+            .WithMany(c => c.Members)
             .OnDelete(DeleteBehavior.Restrict);
         // Default values
         modelBuilder.Entity<Project>().Property(p => p.Status).HasDefaultValue(ProgressStatuses.To_Do);

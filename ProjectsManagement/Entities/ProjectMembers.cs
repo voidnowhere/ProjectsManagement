@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace ProjectsManagement.Entities
 {
-    [PrimaryKey(nameof(ProjectId), nameof(MemberId))]
-    internal class ProjectMembers
+    [Index(nameof(MemberId), nameof(ProjectId), IsUnique = true)]
+    internal class ProjectMember
     {
+        public int Id { get; set; }
+
         public int ProjectId { get; set; }
 
         public Project Project { get; set; }
