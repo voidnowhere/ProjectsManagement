@@ -360,6 +360,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listViewMembers);
             this.Name = "MembersManagementForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Members Management";
             this.Load += new System.EventHandler(this.MembersManagementForm_Load);
             this.ResumeLayout(false);

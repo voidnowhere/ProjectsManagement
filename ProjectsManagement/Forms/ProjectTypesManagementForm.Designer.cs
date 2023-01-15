@@ -100,6 +100,7 @@
             // columnHeaderId
             // 
             this.columnHeaderId.Text = "Id";
+            this.columnHeaderId.Width = 0;
             // 
             // columnHeaderName
             // 
@@ -118,6 +119,7 @@
             this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.label1);
             this.Name = "ProjectTypesManagementForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Project Types Management";
             this.Load += new System.EventHandler(this.ProjectTypesManagementForm_Load);
             this.ResumeLayout(false);

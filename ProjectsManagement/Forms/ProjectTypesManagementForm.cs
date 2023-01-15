@@ -48,6 +48,11 @@ namespace ProjectsManagement.Forms
                 return;
             }
             using AppDbContext dbContext = new AppDbContext();
+            if (dbContext.ProjectTypes.Count(pt => pt.Name == textBoxName.Text) > 0)
+            {
+                MessageBox.Show("Name already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             dbContext.ProjectTypes.Add(new ProjectType { Name = textBoxName.Text });
             dbContext.SaveChanges();
             MessageBox.Show("Project type added.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -68,6 +73,11 @@ namespace ProjectsManagement.Forms
                 return;
             }
             using AppDbContext dbContext = new AppDbContext();
+            if (dbContext.ProjectTypes.Count(pt => pt.Name == textBoxName.Text && pt.Id != selectedProjectType.Id) > 0)
+            {
+                MessageBox.Show("Name already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             selectedProjectType.Name = textBoxName.Text;
             dbContext.ProjectTypes.Update(selectedProjectType);
             dbContext.SaveChanges();
