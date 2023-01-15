@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ProjectsManagement.Entities;
 
 [Index(nameof(Name), IsUnique = true)]
-public class Project
+internal class Project
 {
     public int Id { get; set; }
 
@@ -20,7 +20,7 @@ public class Project
 
     public ProjectType Type { get; set; }
 
-    public List<Member> Members { get; set; }
+    public List<ProjectMembers> Members { get; set; }
 
     public List<Task> Tasks { get; set; }
 }

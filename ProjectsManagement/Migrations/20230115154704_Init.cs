@@ -44,27 +44,27 @@ namespace ProjectsManagement.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MemberProjectType",
+                name: "MembersCompetencies",
                 columns: table => new
                 {
-                    CompetenciesId = table.Column<int>(type: "int", nullable: false),
-                    MembersId = table.Column<int>(type: "int", nullable: false)
+                    MemberId = table.Column<int>(type: "int", nullable: false),
+                    CompetenceId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MemberProjectType", x => new { x.CompetenciesId, x.MembersId });
+                    table.PrimaryKey("PK_MembersCompetencies", x => new { x.MemberId, x.CompetenceId });
                     table.ForeignKey(
-                        name: "FK_MemberProjectType_People_MembersId",
-                        column: x => x.MembersId,
+                        name: "FK_MembersCompetencies_People_MemberId",
+                        column: x => x.MemberId,
                         principalTable: "People",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_MemberProjectType_ProjectTypes_CompetenciesId",
-                        column: x => x.CompetenciesId,
+                        name: "FK_MembersCompetencies_ProjectTypes_CompetenceId",
+                        column: x => x.CompetenceId,
                         principalTable: "ProjectTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -87,31 +87,31 @@ namespace ProjectsManagement.Migrations
                         column: x => x.TypeId,
                         principalTable: "ProjectTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "MemberProject",
+                name: "ProjectsMembers",
                 columns: table => new
                 {
-                    MembersId = table.Column<int>(type: "int", nullable: false),
-                    ProjectsId = table.Column<int>(type: "int", nullable: false)
+                    ProjectId = table.Column<int>(type: "int", nullable: false),
+                    MemberId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MemberProject", x => new { x.MembersId, x.ProjectsId });
+                    table.PrimaryKey("PK_ProjectsMembers", x => new { x.ProjectId, x.MemberId });
                     table.ForeignKey(
-                        name: "FK_MemberProject_People_MembersId",
-                        column: x => x.MembersId,
+                        name: "FK_ProjectsMembers_People_MemberId",
+                        column: x => x.MemberId,
                         principalTable: "People",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_MemberProject_Projects_ProjectsId",
-                        column: x => x.ProjectsId,
+                        name: "FK_ProjectsMembers_Projects_ProjectId",
+                        column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -134,24 +134,19 @@ namespace ProjectsManagement.Migrations
                         column: x => x.MemberId,
                         principalTable: "People",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Tasks_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_MemberProject_ProjectsId",
-                table: "MemberProject",
-                column: "ProjectsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MemberProjectType_MembersId",
-                table: "MemberProjectType",
-                column: "MembersId");
+                name: "IX_MembersCompetencies_CompetenceId",
+                table: "MembersCompetencies",
+                column: "CompetenceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_People_Email",
@@ -175,6 +170,11 @@ namespace ProjectsManagement.Migrations
                 name: "IX_Projects_TypeId",
                 table: "Projects",
                 column: "TypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectsMembers_MemberId",
+                table: "ProjectsMembers",
+                column: "MemberId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProjectTypes_Name",
@@ -203,10 +203,10 @@ namespace ProjectsManagement.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "MemberProject");
+                name: "MembersCompetencies");
 
             migrationBuilder.DropTable(
-                name: "MemberProjectType");
+                name: "ProjectsMembers");
 
             migrationBuilder.DropTable(
                 name: "Tasks");

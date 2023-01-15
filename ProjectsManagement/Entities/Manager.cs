@@ -1,5 +1,5 @@
 ﻿namespace ProjectsManagement.Entities;
 
-public class Manager : Person
+internal class Manager : Person
 {
 }
