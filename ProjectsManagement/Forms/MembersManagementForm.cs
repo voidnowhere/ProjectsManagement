@@ -41,12 +41,12 @@ namespace ProjectsManagement.Forms
             }
         }
 
-        private void FIllListViewMemberCompetencies(int memberId)
+        private void FIllListViewMemberCompetencies()
         {
             listViewMemberCompetencies.Items.Clear();
             using AppDbContext dbContext = new AppDbContext();
             foreach (MemberCompetence memberCompetencie 
-                in dbContext.MembersCompetencies.Include(mc => mc.Competence).Where(mc => mc.MemberId == memberId).ToList())
+                in dbContext.MembersCompetencies.Include(mc => mc.Competence).Where(mc => mc.MemberId == selectedMember.Id).ToList())
             {
                 ListViewItem listViewItem = new ListViewItem(memberCompetencie.Id.ToString());
                 listViewItem.SubItems.Add(memberCompetencie.Competence.Name);
@@ -115,20 +115,19 @@ namespace ProjectsManagement.Forms
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
+            if (listViewMembers.SelectedIndices.Count == 0)
+            {
+                MessageBox.Show("Select a member!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             if (textBoxLastName.Text.Length == 0 || textBoxFirstName.Text.Length == 0 || textBoxNIC.Text.Length == 0
                 || textBoxPhoneNumber.Text.Length == 0 || textBoxEmail.Text.Length == 0)
             {
                 MessageBox.Show("All fields are required!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (listViewMembers.SelectedIndices.Count == 0)
-            {
-                MessageBox.Show("Select a member!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
             using AppDbContext dbContext = new AppDbContext();
-            int memberId = int.Parse(listViewMembers.SelectedItems[0].SubItems[0].Text);
-            if (dbContext.Members.Count(m => m.NIC == textBoxNIC.Text && m.Id != memberId) > 0)
+            if (dbContext.Members.Count(m => m.NIC == textBoxNIC.Text && m.Id != selectedMember.Id) > 0)
             {
                 MessageBox.Show("NIC already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -162,7 +161,7 @@ namespace ProjectsManagement.Forms
                 textBoxPhoneNumber.Text = selectedMember.PhoneNumber;
                 textBoxEmail.Text = selectedMember.Email;
                 buttonChnageIsActive.Text = (selectedMember.IsActive) ? "Deactivate" : "Activate";
-                FIllListViewMemberCompetencies(selectedMember.Id);
+                FIllListViewMemberCompetencies();
             }
         }
 
@@ -192,6 +191,11 @@ namespace ProjectsManagement.Forms
             dbContext.Members.Remove(selectedMember);
             dbContext.SaveChanges();
             MessageBox.Show("Member deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            textBoxLastName.Clear();
+            textBoxFirstName.Clear();
+            textBoxNIC.Clear();
+            textBoxPhoneNumber.Clear();
+            textBoxEmail.Clear();
             listViewMemberCompetencies.Items.Clear();
             FillListViewMembers();
         }
@@ -222,6 +226,11 @@ namespace ProjectsManagement.Forms
             dbContext.Members.Update(selectedMember);
             dbContext.SaveChanges();
             MessageBox.Show($"Member has been {((selectedMember.IsActive) ? "activated" : "deactivated")}.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            textBoxLastName.Clear();
+            textBoxFirstName.Clear();
+            textBoxNIC.Clear();
+            textBoxPhoneNumber.Clear();
+            textBoxEmail.Clear();
             listViewMemberCompetencies.Items.Clear();
             FillListViewMembers();
         }
@@ -248,7 +257,7 @@ namespace ProjectsManagement.Forms
             dbContext.MembersCompetencies.Add(new MemberCompetence{ MemberId = selectedMember.Id, CompetenceId = competenceId });
             dbContext.SaveChanges();
             MessageBox.Show("Competence added to member.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            FIllListViewMemberCompetencies(selectedMember.Id);
+            FIllListViewMemberCompetencies();
         }
 
         private void buttonRemoveCompetence_Click(object sender, EventArgs e)
@@ -262,7 +271,7 @@ namespace ProjectsManagement.Forms
             dbContext.Remove(new MemberCompetence { Id = int.Parse(listViewMemberCompetencies.SelectedItems[0].SubItems[0].Text) });
             dbContext.SaveChanges();
             MessageBox.Show("Member competence removed.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            FIllListViewMemberCompetencies(selectedMember.Id);
+            FIllListViewMemberCompetencies();
         }
     }
 }
