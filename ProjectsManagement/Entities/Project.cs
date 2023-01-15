@@ -20,7 +20,7 @@ internal class Project
 
     public ProjectType Type { get; set; }
 
-    public List<ProjectMembers> Members { get; set; }
+    public List<ProjectMember> Members { get; set; }
 
     public List<Task> Tasks { get; set; }
 }

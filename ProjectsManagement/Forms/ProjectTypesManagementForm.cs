@@ -24,7 +24,8 @@ namespace ProjectsManagement.Forms
         private void FillListViewListViewProjectTypes()
         {
             listViewProjectTypes.Items.Clear();
-            foreach (ProjectType type in new AppDbContext().ProjectTypes.ToList())
+            using AppDbContext dbContext = new AppDbContext();
+            foreach (ProjectType type in dbContext.ProjectTypes.ToList())
             {
                 ListViewItem listViewItem = new ListViewItem(type.Id.ToString());
                 listViewItem.SubItems.Add(type.Name);

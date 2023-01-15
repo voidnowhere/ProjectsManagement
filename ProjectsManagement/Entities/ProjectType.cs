@@ -12,5 +12,5 @@ internal class ProjectType
     
     public List<Project> Projects { get; set; }
     
-    public List<MemberCompetencies> MembersCompetencies { get; set; }
+    public List<MemberCompetence> Members { get; set; }
 }

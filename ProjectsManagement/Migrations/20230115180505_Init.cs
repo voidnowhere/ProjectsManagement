@@ -47,12 +47,14 @@ namespace ProjectsManagement.Migrations
                 name: "MembersCompetencies",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     MemberId = table.Column<int>(type: "int", nullable: false),
                     CompetenceId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MembersCompetencies", x => new { x.MemberId, x.CompetenceId });
+                    table.PrimaryKey("PK_MembersCompetencies", x => x.Id);
                     table.ForeignKey(
                         name: "FK_MembersCompetencies_People_MemberId",
                         column: x => x.MemberId,
@@ -94,12 +96,14 @@ namespace ProjectsManagement.Migrations
                 name: "ProjectsMembers",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ProjectId = table.Column<int>(type: "int", nullable: false),
                     MemberId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectsMembers", x => new { x.ProjectId, x.MemberId });
+                    table.PrimaryKey("PK_ProjectsMembers", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ProjectsMembers_People_MemberId",
                         column: x => x.MemberId,
@@ -149,6 +153,12 @@ namespace ProjectsManagement.Migrations
                 column: "CompetenceId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MembersCompetencies_MemberId_CompetenceId",
+                table: "MembersCompetencies",
+                columns: new[] { "MemberId", "CompetenceId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_People_Email",
                 table: "People",
                 column: "Email",
@@ -172,9 +182,15 @@ namespace ProjectsManagement.Migrations
                 column: "TypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectsMembers_MemberId",
+                name: "IX_ProjectsMembers_MemberId_ProjectId",
                 table: "ProjectsMembers",
-                column: "MemberId");
+                columns: new[] { "MemberId", "ProjectId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectsMembers_ProjectId",
+                table: "ProjectsMembers",
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProjectTypes_Name",
