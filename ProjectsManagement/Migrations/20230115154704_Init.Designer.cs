@@ -11,7 +11,7 @@ using ProjectsManagement.Models;
 namespace ProjectsManagement.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230115142714_Init")]
+    [Migration("20230115154704_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -24,34 +24,19 @@ namespace ProjectsManagement.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MemberProject", b =>
+            modelBuilder.Entity("ProjectsManagement.Entities.MemberCompetencies", b =>
                 {
-                    b.Property<int>("MembersId")
+                    b.Property<int>("MemberId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProjectsId")
+                    b.Property<int>("CompetenceId")
                         .HasColumnType("int");
 
-                    b.HasKey("MembersId", "ProjectsId");
+                    b.HasKey("MemberId", "CompetenceId");
 
-                    b.HasIndex("ProjectsId");
+                    b.HasIndex("CompetenceId");
 
-                    b.ToTable("MemberProject");
-                });
-
-            modelBuilder.Entity("MemberProjectType", b =>
-                {
-                    b.Property<int>("CompetenciesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MembersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CompetenciesId", "MembersId");
-
-                    b.HasIndex("MembersId");
-
-                    b.ToTable("MemberProjectType");
+                    b.ToTable("MembersCompetencies");
                 });
 
             modelBuilder.Entity("ProjectsManagement.Entities.Person", b =>
@@ -143,6 +128,21 @@ namespace ProjectsManagement.Migrations
                     b.ToTable("Projects");
                 });
 
+            modelBuilder.Entity("ProjectsManagement.Entities.ProjectMembers", b =>
+                {
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MemberId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjectId", "MemberId");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("ProjectsMembers");
+                });
+
             modelBuilder.Entity("ProjectsManagement.Entities.ProjectType", b =>
                 {
                     b.Property<int>("Id")
@@ -220,34 +220,23 @@ namespace ProjectsManagement.Migrations
                     b.HasDiscriminator().HasValue("Member");
                 });
 
-            modelBuilder.Entity("MemberProject", b =>
+            modelBuilder.Entity("ProjectsManagement.Entities.MemberCompetencies", b =>
                 {
-                    b.HasOne("ProjectsManagement.Entities.Member", null)
-                        .WithMany()
-                        .HasForeignKey("MembersId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("ProjectsManagement.Entities.ProjectType", "Competence")
+                        .WithMany("MembersCompetencies")
+                        .HasForeignKey("CompetenceId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ProjectsManagement.Entities.Project", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MemberProjectType", b =>
-                {
-                    b.HasOne("ProjectsManagement.Entities.ProjectType", null)
-                        .WithMany()
-                        .HasForeignKey("CompetenciesId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("ProjectsManagement.Entities.Member", "Member")
+                        .WithMany("Competencies")
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ProjectsManagement.Entities.Member", null)
-                        .WithMany()
-                        .HasForeignKey("MembersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Competence");
+
+                    b.Navigation("Member");
                 });
 
             modelBuilder.Entity("ProjectsManagement.Entities.Project", b =>
@@ -255,10 +244,29 @@ namespace ProjectsManagement.Migrations
                     b.HasOne("ProjectsManagement.Entities.ProjectType", "Type")
                         .WithMany("Projects")
                         .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("ProjectsManagement.Entities.ProjectMembers", b =>
+                {
+                    b.HasOne("ProjectsManagement.Entities.Member", "Member")
+                        .WithMany("Projects")
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ProjectsManagement.Entities.Project", "Project")
+                        .WithMany("Members")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Member");
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("ProjectsManagement.Entities.Task", b =>
@@ -266,13 +274,13 @@ namespace ProjectsManagement.Migrations
                     b.HasOne("ProjectsManagement.Entities.Member", "Member")
                         .WithMany("Tasks")
                         .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ProjectsManagement.Entities.Project", "Project")
                         .WithMany("Tasks")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Member");
@@ -282,16 +290,24 @@ namespace ProjectsManagement.Migrations
 
             modelBuilder.Entity("ProjectsManagement.Entities.Project", b =>
                 {
+                    b.Navigation("Members");
+
                     b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("ProjectsManagement.Entities.ProjectType", b =>
                 {
+                    b.Navigation("MembersCompetencies");
+
                     b.Navigation("Projects");
                 });
 
             modelBuilder.Entity("ProjectsManagement.Entities.Member", b =>
                 {
+                    b.Navigation("Competencies");
+
+                    b.Navigation("Projects");
+
                     b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618

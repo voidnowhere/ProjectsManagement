@@ -3,7 +3,7 @@
 namespace ProjectsManagement.Entities;
 
 [Index(nameof(Name), IsUnique = true)]
-public class Task
+internal class Task
 {
     public int Id { get; set; }
 
