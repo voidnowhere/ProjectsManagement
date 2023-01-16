@@ -20,6 +20,8 @@ internal class Project
 
     public ProjectType Type { get; set; }
 
+    public string NameAndType => Name + " / " + Type.Name;
+
     public List<ProjectMember> Members { get; set; }
 
     public List<Task> Tasks { get; set; }
