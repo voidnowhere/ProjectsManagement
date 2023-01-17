@@ -4,7 +4,7 @@ namespace ProjectsManagement.Entities;
 
 [Index(nameof(NIC), IsUnique = true)]
 [Index(nameof(Email), IsUnique = true)]
-internal class Person
+public class Person
 {
     public int Id { get; set; }
     
