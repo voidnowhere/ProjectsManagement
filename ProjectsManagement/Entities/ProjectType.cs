@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ProjectsManagement.Entities;
 
 [Index(nameof(Name), IsUnique = true)]
-internal class ProjectType
+public class ProjectType
 {
     public int Id { get; set; }
     

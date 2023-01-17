@@ -2,7 +2,7 @@
 
 namespace ProjectsManagement.Entities;
 
-internal enum ProgressStatuses
+public enum ProgressStatuses
 {
     To_Do,
     In_Progress,
