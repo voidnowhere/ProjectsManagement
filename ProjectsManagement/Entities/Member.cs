@@ -2,7 +2,7 @@
 
 namespace ProjectsManagement.Entities;
 
-internal class Member : Person
+public class Member : Person
 {
     public bool IsActive { get; set; }
     

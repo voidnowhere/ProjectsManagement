@@ -97,6 +97,7 @@
             this.projectTasksManagementToolStripMenuItem1.Name = "projectTasksManagementToolStripMenuItem1";
             this.projectTasksManagementToolStripMenuItem1.Size = new System.Drawing.Size(160, 20);
             this.projectTasksManagementToolStripMenuItem1.Text = "Project Tasks Management";
+            this.projectTasksManagementToolStripMenuItem1.Click += new System.EventHandler(this.projectTasksManagementToolStripMenuItem1_Click);
             // 
             // profileManagementToolStripMenuItem
             // 

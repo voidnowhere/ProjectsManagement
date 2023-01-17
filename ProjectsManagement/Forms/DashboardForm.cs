@@ -25,6 +25,7 @@ namespace ProjectsManagement.Forms
             membersManagementToolStripMenuItem.Visible = isAdmin;
             projectsManagementToolStripMenuItem.Visible = isAdmin;
             memberProjectTasksManagementToolStripMenuItem.Visible = isAdmin;
+            projectTasksManagementToolStripMenuItem1.Visible = !isAdmin;
         }
 
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -40,6 +41,11 @@ namespace ProjectsManagement.Forms
         private void profileManagementToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new ProfileInformationForm(person).ShowDialog();
+        }
+
+        private void projectTasksManagementToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            new ProjectTasksManagementForm((Member)person).ShowDialog();
         }
     }
 }

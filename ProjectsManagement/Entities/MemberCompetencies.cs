@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace ProjectsManagement.Entities
 {
     [Index(nameof(MemberId), nameof(CompetenceId), IsUnique = true)]
-    internal class MemberCompetence
+    public class MemberCompetence
     {
         public int Id { get; set; }
 
