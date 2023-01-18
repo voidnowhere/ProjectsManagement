@@ -1,6 +1,4 @@
-﻿using MaterialSkin;
-using MaterialSkin.Controls;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ProjectsManagement.Entities;
 using ProjectsManagement.Models;
 using System;
@@ -15,7 +13,7 @@ using System.Windows.Forms;
 
 namespace ProjectsManagement.Forms
 {
-    public partial class MemberProjectTasksManagementForm : MaterialForm
+    public partial class MemberProjectTasksManagementForm : Form
     {
         private Member member;
         private Entities.Task selectedTask;
@@ -23,10 +21,6 @@ namespace ProjectsManagement.Forms
         public MemberProjectTasksManagementForm()
         {
             InitializeComponent();
-            MaterialSkinManager materialSkinManager = MaterialSkinManager.Instance;
-            materialSkinManager.AddFormToManage(this);
-            materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
-            materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue600, Primary.Blue700, Primary.Blue900, Accent.LightBlue700, TextShade.WHITE);
         }
 
         private void FillListViewTasks()
@@ -34,7 +28,7 @@ namespace ProjectsManagement.Forms
             listViewTasks.Items.Clear();
             using AppDbContext dbContext = new AppDbContext();
             foreach (Entities.Task task in dbContext.Tasks
-                .Where(t => t.MemberId == member.Id && t.ProjectId == ((Project)materialComboBoxProjects.SelectedItem).Id)
+                .Where(t => t.MemberId == member.Id && t.ProjectId == ((Project)comboBoxProjects.SelectedItem).Id)
                 .ToList())
             {
                 ListViewItem listViewItem = new ListViewItem(task.Id.ToString());
@@ -48,72 +42,72 @@ namespace ProjectsManagement.Forms
         {
             listViewTasks.FullRowSelect = true;
             listViewTasks.MultiSelect = false;
-            materialComboBoxStatus.DataSource = new List<ProgressStatuses> { ProgressStatuses.To_Do, ProgressStatuses.In_Progress, ProgressStatuses.Done };
-            materialComboBoxStatus.SelectedIndex = -1;
+            comboBoxStatus.DataSource = new List<ProgressStatuses> { ProgressStatuses.To_Do, ProgressStatuses.In_Progress, ProgressStatuses.Done };
+            comboBoxStatus.SelectedIndex = -1;
         }
 
-        private void materialButtonSearch_Click(object sender, EventArgs e)
+        private void buttonSearch_Click(object sender, EventArgs e)
         {
-            if (materialTextBoxNIC.Text.Length == 0)
+            if (textBoxNIC.Text.Length == 0)
             {
                 MessageBox.Show("NIC is required!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             Text = "Member Project Tasks Management";
-            materialComboBoxProjects.DataSource = null;
-            materialTextBoxName.Clear();
-            materialMultiLineTextBoxDescription.Clear();
-            materialComboBoxStatus.SelectedIndex = -1;
-            materialComboBoxStatus.Refresh();
+            comboBoxProjects.DataSource = null;
+            textBoxName.Clear();
+            richTextBoxDescription.Clear();
+            comboBoxStatus.SelectedIndex = -1;
+            comboBoxStatus.Refresh();
             listViewTasks.Items.Clear();
             using AppDbContext dbContext = new AppDbContext();
-            member = dbContext.Members.FirstOrDefault(m => m.NIC == materialTextBoxNIC.Text);
+            member = dbContext.Members.FirstOrDefault(m => m.NIC == textBoxNIC.Text);
             if (member is null)
             {
                 MessageBox.Show("Member not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             Text = $"{member.FullName} Project Tasks Management";
-            materialComboBoxProjects.DisplayMember = "NameAndType";
-            materialComboBoxProjects.DataSource = dbContext.Projects.Include(p => p.Type)
+            comboBoxProjects.DisplayMember = "NameAndType";
+            comboBoxProjects.DataSource = dbContext.Projects.Include(p => p.Type)
                 .Where(p => p.Members.Count(m => m.MemberId == member.Id) > 0).ToList();
         }
 
-        private void materialButtonAdd_Click(object sender, EventArgs e)
+        private void buttonAdd_Click(object sender, EventArgs e)
         {
-            if (materialTextBoxNIC.Text.Length == 0 || materialComboBoxProjects.SelectedIndex < 0 ||
-                materialTextBoxName.Text.Length == 0 || materialComboBoxStatus.SelectedIndex < 0 ||
-                materialMultiLineTextBoxDescription.Text.Length == 0)
+            if (textBoxNIC.Text.Length == 0 || comboBoxProjects.SelectedIndex < 0 ||
+                textBoxName.Text.Length == 0 || comboBoxStatus.SelectedIndex < 0 ||
+                richTextBoxDescription.Text.Length == 0)
             {
                 MessageBox.Show("All fields are required!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             using AppDbContext dbContext = new AppDbContext();
-            if (dbContext.Tasks.Count(t => t.Name == materialTextBoxName.Text) > 0)
+            if (dbContext.Tasks.Count(t => t.Name == textBoxName.Text) > 0)
             {
                 MessageBox.Show("Name already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             dbContext.Tasks.Add(new Entities.Task
             {
-                Name = materialTextBoxName.Text,
-                Description = materialMultiLineTextBoxDescription.Text,
-                Status = (ProgressStatuses)materialComboBoxStatus.SelectedItem,
-                ProjectId = ((Project)materialComboBoxProjects.SelectedItem).Id,
+                Name = textBoxName.Text,
+                Description = richTextBoxDescription.Text,
+                Status = (ProgressStatuses)comboBoxStatus.SelectedItem,
+                ProjectId = ((Project)comboBoxProjects.SelectedItem).Id,
                 MemberId = member.Id
             });
             dbContext.SaveChanges();
             MessageBox.Show("Task added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            materialTextBoxName.Clear();
-            materialMultiLineTextBoxDescription.Clear();
-            materialComboBoxStatus.SelectedIndex = -1;
-            materialComboBoxStatus.Refresh();
+            textBoxName.Clear();
+            richTextBoxDescription.Clear();
+            comboBoxStatus.SelectedIndex = -1;
+            comboBoxStatus.Refresh();
             FillListViewTasks();
         }
 
-        private void materialComboBoxProjects_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxProjects_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (materialComboBoxProjects.SelectedIndex >= 0)
+            if (comboBoxProjects.SelectedIndex >= 0)
             {
                 FillListViewTasks();
             }
@@ -125,47 +119,47 @@ namespace ProjectsManagement.Forms
             {
                 using AppDbContext dbContext = new AppDbContext();
                 selectedTask = dbContext.Tasks.Find(int.Parse(listViewTasks.SelectedItems[0].SubItems[0].Text));
-                materialTextBoxName.Text = selectedTask.Name;
-                materialMultiLineTextBoxDescription.Text = selectedTask.Description;
-                materialComboBoxStatus.SelectedItem = selectedTask.Status;
-                materialComboBoxStatus.Refresh();
+                textBoxName.Text = selectedTask.Name;
+                richTextBoxDescription.Text = selectedTask.Description;
+                comboBoxStatus.SelectedItem = selectedTask.Status;
+                comboBoxStatus.Refresh();
             }
         }
 
-        private void materialButtonUpdate_Click(object sender, EventArgs e)
+        private void buttonUpdate_Click(object sender, EventArgs e)
         {
             if (listViewTasks.SelectedIndices.Count == 0)
             {
                 MessageBox.Show("Select a task!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (materialTextBoxNIC.Text.Length == 0 || materialComboBoxProjects.SelectedIndex < 0 ||
-                materialTextBoxName.Text.Length == 0 || materialComboBoxStatus.SelectedIndex < 0 ||
-                materialMultiLineTextBoxDescription.Text.Length == 0)
+            if (textBoxNIC.Text.Length == 0 || comboBoxProjects.SelectedIndex < 0 ||
+                textBoxName.Text.Length == 0 || comboBoxStatus.SelectedIndex < 0 ||
+                richTextBoxDescription.Text.Length == 0)
             {
                 MessageBox.Show("All fields are required!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             using AppDbContext dbContext = new AppDbContext();
-            if (dbContext.Tasks.Count(t => t.Name == materialTextBoxName.Text && t.Id != selectedTask.Id) > 0)
+            if (dbContext.Tasks.Count(t => t.Name == textBoxName.Text && t.Id != selectedTask.Id) > 0)
             {
                 MessageBox.Show("Name already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            selectedTask.Name = materialTextBoxName.Text;
-            selectedTask.Description = materialMultiLineTextBoxDescription.Text;
-            selectedTask.Status = (ProgressStatuses)materialComboBoxStatus.SelectedItem;
+            selectedTask.Name = textBoxName.Text;
+            selectedTask.Description = richTextBoxDescription.Text;
+            selectedTask.Status = (ProgressStatuses)comboBoxStatus.SelectedItem;
             dbContext.Update(selectedTask);
             dbContext.SaveChanges();
             MessageBox.Show("Task updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            materialTextBoxName.Clear();
-            materialMultiLineTextBoxDescription.Clear();
-            materialComboBoxStatus.SelectedIndex = -1;
-            materialComboBoxStatus.Refresh();
+            textBoxName.Clear();
+            richTextBoxDescription.Clear();
+            comboBoxStatus.SelectedIndex = -1;
+            comboBoxStatus.Refresh();
             FillListViewTasks();
         }
 
-        private void materialButtonDelete_Click(object sender, EventArgs e)
+        private void buttonDelete_Click(object sender, EventArgs e)
         {
             if (listViewTasks.SelectedIndices.Count == 0)
             {
@@ -176,10 +170,10 @@ namespace ProjectsManagement.Forms
             dbContext.Remove(selectedTask);
             dbContext.SaveChanges();
             MessageBox.Show("Task deleted!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            materialTextBoxName.Clear();
-            materialMultiLineTextBoxDescription.Clear();
-            materialComboBoxStatus.SelectedIndex = -1;
-            materialComboBoxStatus.Refresh();
+            textBoxName.Clear();
+            richTextBoxDescription.Clear();
+            comboBoxStatus.SelectedIndex = -1;
+            comboBoxStatus.Refresh();
             FillListViewTasks();
         }
     }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MembersManagementForm));
             this.listViewMembers = new System.Windows.Forms.ListView();
             this.columnHeaderMemberId = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderLastName = new System.Windows.Forms.ColumnHeader();
@@ -359,6 +360,7 @@
             this.Controls.Add(this.textBoxLastName);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listViewMembers);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MembersManagementForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Members Management";

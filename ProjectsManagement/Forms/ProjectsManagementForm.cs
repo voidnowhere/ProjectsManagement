@@ -47,7 +47,7 @@ namespace ProjectsManagement.Forms
                     && m.Projects.Count(p => p.ProjectId == selectedProject.Id) == 0).ToList())
             {
                 ListViewItem listViewItem = new ListViewItem(member.Id.ToString());
-                listViewItem.SubItems.Add(member.FullName);
+                listViewItem.SubItems.Add($"{member.NIC} {member.FullName}");
                 listViewQualifiedMembers.Items.Add(listViewItem);
             }
         }
@@ -60,7 +60,7 @@ namespace ProjectsManagement.Forms
                 in dbContext.ProjectsMembers.Include(pm => pm.Member).Where(pm => pm.ProjectId == selectedProject.Id).ToList())
             {
                 ListViewItem listViewItem = new ListViewItem(projectMember.Id.ToString());
-                listViewItem.SubItems.Add(projectMember.Member.FullName);
+                listViewItem.SubItems.Add($"{projectMember.Member.NIC} {projectMember.Member.FullName}");
                 listViewProjectMembers.Items.Add(listViewItem);
             }
         }

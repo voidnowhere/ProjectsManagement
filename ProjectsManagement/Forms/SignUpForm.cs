@@ -1,7 +1,4 @@
-﻿using Azure.Identity;
-using MaterialSkin;
-using MaterialSkin.Controls;
-using ProjectsManagement.Entities;
+﻿using ProjectsManagement.Entities;
 using ProjectsManagement.Models;
 using System;
 using System.Collections.Generic;
