@@ -28,6 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.menuStripForManager = new System.Windows.Forms.MenuStrip();
             this.projectTypesManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.membersManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,8 +42,14 @@
             this.profileManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chartProjects = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chartProject = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.comboBoxProjects = new System.Windows.Forms.ComboBox();
+            this.labelProjects = new System.Windows.Forms.Label();
             this.menuStripForManager.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartProjects)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartProject)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStripForManager
@@ -51,7 +61,7 @@
             this.memberProjectTasksManagementToolStripMenuItem});
             this.menuStripForManager.Location = new System.Drawing.Point(0, 24);
             this.menuStripForManager.Name = "menuStripForManager";
-            this.menuStripForManager.Size = new System.Drawing.Size(667, 24);
+            this.menuStripForManager.Size = new System.Drawing.Size(880, 24);
             this.menuStripForManager.TabIndex = 0;
             this.menuStripForManager.Text = "menuStrip1";
             // 
@@ -88,7 +98,7 @@
             this.logoutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(667, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(880, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip2";
             // 
@@ -120,11 +130,60 @@
             this.logoutToolStripMenuItem.Text = "Logout";
             this.logoutToolStripMenuItem.Click += new System.EventHandler(this.logoutToolStripMenuItem_Click);
             // 
+            // chartProjects
+            // 
+            chartArea3.Name = "ChartArea1";
+            this.chartProjects.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chartProjects.Legends.Add(legend3);
+            this.chartProjects.Location = new System.Drawing.Point(12, 51);
+            this.chartProjects.Name = "chartProjects";
+            this.chartProjects.Size = new System.Drawing.Size(856, 250);
+            this.chartProjects.TabIndex = 2;
+            this.chartProjects.Text = "Projects Chart";
+            this.chartProjects.DoubleClick += new System.EventHandler(this.chartProjectsStatues_DoubleClick);
+            // 
+            // chartProject
+            // 
+            chartArea4.Name = "ChartArea1";
+            this.chartProject.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chartProject.Legends.Add(legend4);
+            this.chartProject.Location = new System.Drawing.Point(12, 336);
+            this.chartProject.Name = "chartProject";
+            this.chartProject.Size = new System.Drawing.Size(856, 250);
+            this.chartProject.TabIndex = 3;
+            this.chartProject.Text = "chart1";
+            this.chartProject.DoubleClick += new System.EventHandler(this.chartProjects_DoubleClick);
+            // 
+            // comboBoxProjects
+            // 
+            this.comboBoxProjects.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxProjects.FormattingEnabled = true;
+            this.comboBoxProjects.Location = new System.Drawing.Point(494, 307);
+            this.comboBoxProjects.Name = "comboBoxProjects";
+            this.comboBoxProjects.Size = new System.Drawing.Size(374, 23);
+            this.comboBoxProjects.TabIndex = 4;
+            this.comboBoxProjects.SelectedIndexChanged += new System.EventHandler(this.comboBoxProjects_SelectedIndexChanged);
+            // 
+            // labelProjects
+            // 
+            this.labelProjects.AutoSize = true;
+            this.labelProjects.Location = new System.Drawing.Point(439, 310);
+            this.labelProjects.Name = "labelProjects";
+            this.labelProjects.Size = new System.Drawing.Size(49, 15);
+            this.labelProjects.TabIndex = 5;
+            this.labelProjects.Text = "Projects";
+            // 
             // DashboardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(667, 450);
+            this.ClientSize = new System.Drawing.Size(880, 594);
+            this.Controls.Add(this.labelProjects);
+            this.Controls.Add(this.comboBoxProjects);
+            this.Controls.Add(this.chartProject);
+            this.Controls.Add(this.chartProjects);
             this.Controls.Add(this.menuStripForManager);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -133,10 +192,13 @@
             this.Name = "DashboardForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DashboardForm";
+            this.Load += new System.EventHandler(this.DashboardForm_Load);
             this.menuStripForManager.ResumeLayout(false);
             this.menuStripForManager.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartProjects)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartProject)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -154,5 +216,9 @@
         private ToolStripMenuItem profileManagementToolStripMenuItem;
         private ToolStripMenuItem changePasswordToolStripMenuItem;
         private ToolStripMenuItem logoutToolStripMenuItem;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartProjects;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartProject;
+        private ComboBox comboBoxProjects;
+        private Label labelProjects;
     }
 }
