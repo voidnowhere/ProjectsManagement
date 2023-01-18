@@ -139,5 +139,25 @@ namespace ProjectsManagement.Forms
         {
             comboBoxProjects_SelectedIndexChanged(sender, e);
         }
+
+        private void projectTypesManagementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new ProjectTypesManagementForm().ShowDialog();
+        }
+
+        private void membersManagementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new MembersManagementForm().ShowDialog();
+        }
+
+        private void projectsManagementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new ProjectsManagementForm().ShowDialog();
+        }
+
+        private void memberProjectTasksManagementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new MemberProjectTasksManagementForm().ShowDialog();
+        }
     }
 }

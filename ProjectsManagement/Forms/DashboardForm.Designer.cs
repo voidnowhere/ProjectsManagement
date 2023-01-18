@@ -28,10 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DashboardForm));
             this.menuStripForManager = new System.Windows.Forms.MenuStrip();
             this.projectTypesManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.membersManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,24 +71,28 @@
             this.projectTypesManagementToolStripMenuItem.Name = "projectTypesManagementToolStripMenuItem";
             this.projectTypesManagementToolStripMenuItem.Size = new System.Drawing.Size(162, 20);
             this.projectTypesManagementToolStripMenuItem.Text = "Project Types Management";
+            this.projectTypesManagementToolStripMenuItem.Click += new System.EventHandler(this.projectTypesManagementToolStripMenuItem_Click);
             // 
             // membersManagementToolStripMenuItem
             // 
             this.membersManagementToolStripMenuItem.Name = "membersManagementToolStripMenuItem";
             this.membersManagementToolStripMenuItem.Size = new System.Drawing.Size(143, 20);
             this.membersManagementToolStripMenuItem.Text = "Members Management";
+            this.membersManagementToolStripMenuItem.Click += new System.EventHandler(this.membersManagementToolStripMenuItem_Click);
             // 
             // projectsManagementToolStripMenuItem
             // 
             this.projectsManagementToolStripMenuItem.Name = "projectsManagementToolStripMenuItem";
             this.projectsManagementToolStripMenuItem.Size = new System.Drawing.Size(135, 20);
             this.projectsManagementToolStripMenuItem.Text = "Projects Management";
+            this.projectsManagementToolStripMenuItem.Click += new System.EventHandler(this.projectsManagementToolStripMenuItem_Click);
             // 
             // memberProjectTasksManagementToolStripMenuItem
             // 
             this.memberProjectTasksManagementToolStripMenuItem.Name = "memberProjectTasksManagementToolStripMenuItem";
             this.memberProjectTasksManagementToolStripMenuItem.Size = new System.Drawing.Size(208, 20);
             this.memberProjectTasksManagementToolStripMenuItem.Text = "Member Project Tasks Management";
+            this.memberProjectTasksManagementToolStripMenuItem.Click += new System.EventHandler(this.memberProjectTasksManagementToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -132,10 +137,10 @@
             // 
             // chartProjects
             // 
-            chartArea3.Name = "ChartArea1";
-            this.chartProjects.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.chartProjects.Legends.Add(legend3);
+            chartArea1.Name = "ChartArea1";
+            this.chartProjects.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartProjects.Legends.Add(legend1);
             this.chartProjects.Location = new System.Drawing.Point(12, 51);
             this.chartProjects.Name = "chartProjects";
             this.chartProjects.Size = new System.Drawing.Size(856, 250);
@@ -145,10 +150,10 @@
             // 
             // chartProject
             // 
-            chartArea4.Name = "ChartArea1";
-            this.chartProject.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.chartProject.Legends.Add(legend4);
+            chartArea2.Name = "ChartArea1";
+            this.chartProject.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chartProject.Legends.Add(legend2);
             this.chartProject.Location = new System.Drawing.Point(12, 336);
             this.chartProject.Name = "chartProject";
             this.chartProject.Size = new System.Drawing.Size(856, 250);
@@ -187,6 +192,7 @@
             this.Controls.Add(this.menuStripForManager);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStripForManager;
             this.MaximizeBox = false;
             this.Name = "DashboardForm";

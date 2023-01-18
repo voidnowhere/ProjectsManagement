@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectsManagementForm));
             this.listViewProjects = new System.Windows.Forms.ListView();
             this.columnHeaderPrjectId = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderProjectName = new System.Windows.Forms.ColumnHeader();
@@ -44,12 +45,12 @@
             this.comboBoxProjectType = new System.Windows.Forms.ComboBox();
             this.listViewProjectMembers = new System.Windows.Forms.ListView();
             this.columnHeaderPMId = new System.Windows.Forms.ColumnHeader();
-            this.columnHeaderPMFullName = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderPMMember = new System.Windows.Forms.ColumnHeader();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.listViewQualifiedMembers = new System.Windows.Forms.ListView();
             this.columnHeaderMemberId = new System.Windows.Forms.ColumnHeader();
-            this.columnHeaderMemberFullName = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderMember = new System.Windows.Forms.ColumnHeader();
             this.label6 = new System.Windows.Forms.Label();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonUpdate = new System.Windows.Forms.Button();
@@ -170,7 +171,7 @@
             // 
             this.listViewProjectMembers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderPMId,
-            this.columnHeaderPMFullName});
+            this.columnHeaderPMMember});
             this.listViewProjectMembers.Location = new System.Drawing.Point(368, 205);
             this.listViewProjectMembers.Name = "listViewProjectMembers";
             this.listViewProjectMembers.Size = new System.Drawing.Size(121, 181);
@@ -183,10 +184,10 @@
             this.columnHeaderPMId.Text = "Id";
             this.columnHeaderPMId.Width = 0;
             // 
-            // columnHeaderPMFullName
+            // columnHeaderPMMember
             // 
-            this.columnHeaderPMFullName.Text = "Full Name";
-            this.columnHeaderPMFullName.Width = 100;
+            this.columnHeaderPMMember.Text = "Member";
+            this.columnHeaderPMMember.Width = 100;
             // 
             // label4
             // 
@@ -210,7 +211,7 @@
             // 
             this.listViewQualifiedMembers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderMemberId,
-            this.columnHeaderMemberFullName});
+            this.columnHeaderMember});
             this.listViewQualifiedMembers.Location = new System.Drawing.Point(532, 205);
             this.listViewQualifiedMembers.Name = "listViewQualifiedMembers";
             this.listViewQualifiedMembers.Size = new System.Drawing.Size(121, 181);
@@ -222,10 +223,10 @@
             // 
             this.columnHeaderMemberId.Width = 0;
             // 
-            // columnHeaderMemberFullName
+            // columnHeaderMember
             // 
-            this.columnHeaderMemberFullName.Text = "Full Name";
-            this.columnHeaderMemberFullName.Width = 100;
+            this.columnHeaderMember.Text = "Member";
+            this.columnHeaderMember.Width = 100;
             // 
             // label6
             // 
@@ -321,6 +322,7 @@
             this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.labelName);
             this.Controls.Add(this.listViewProjects);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ProjectsManagementForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Projects Management";
@@ -358,8 +360,8 @@
         private Button buttonRemoveMember;
         private Button buttonDelete;
         private ColumnHeader columnHeaderPMId;
-        private ColumnHeader columnHeaderPMFullName;
+        private ColumnHeader columnHeaderPMMember;
         private ColumnHeader columnHeaderMemberId;
-        private ColumnHeader columnHeaderMemberFullName;
+        private ColumnHeader columnHeaderMember;
     }
 }

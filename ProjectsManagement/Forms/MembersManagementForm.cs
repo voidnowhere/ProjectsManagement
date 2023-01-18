@@ -58,7 +58,8 @@ namespace ProjectsManagement.Forms
         {
             listViewCompetencies.Items.Clear();
             using AppDbContext dbContext = new AppDbContext();
-            foreach (ProjectType projectType in dbContext.ProjectTypes.ToList())
+            foreach (ProjectType projectType in dbContext.ProjectTypes
+                .Where(pt => pt.Members.Count(m => m.MemberId == selectedMember.Id) == 0).ToList())
             {
                 ListViewItem listViewItem = new ListViewItem(projectType.Id.ToString());
                 listViewItem.SubItems.Add(projectType.Name);
@@ -75,7 +76,6 @@ namespace ProjectsManagement.Forms
             listViewCompetencies.FullRowSelect = true;
             listViewCompetencies.MultiSelect = false;
             FillListViewMembers();
-            FillListViewCompetencies();
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -90,6 +90,11 @@ namespace ProjectsManagement.Forms
             if (dbContext.Members.Count(m => m.NIC == textBoxNIC.Text) > 0)
             {
                 MessageBox.Show("NIC already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (dbContext.Members.Count(m => m.Email == textBoxEmail.Text) > 0)
+            {
+                MessageBox.Show("Email already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             dbContext.Members.Add(new Member
@@ -162,6 +167,7 @@ namespace ProjectsManagement.Forms
                 textBoxEmail.Text = selectedMember.Email;
                 buttonChnageIsActive.Text = (selectedMember.IsActive) ? "Deactivate" : "Activate";
                 FIllListViewMemberCompetencies();
+                FillListViewCompetencies();
             }
         }
 
@@ -258,6 +264,7 @@ namespace ProjectsManagement.Forms
             dbContext.SaveChanges();
             MessageBox.Show("Competence added to member.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             FIllListViewMemberCompetencies();
+            FillListViewCompetencies();
         }
 
         private void buttonRemoveCompetence_Click(object sender, EventArgs e)
@@ -272,6 +279,7 @@ namespace ProjectsManagement.Forms
             dbContext.SaveChanges();
             MessageBox.Show("Member competence removed.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             FIllListViewMemberCompetencies();
+            FillListViewCompetencies();
         }
     }
 }
